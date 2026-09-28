@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetSys - Control de Expedientes</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- BARRA LATERAL FIJA DE NAVEGACIÓN -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2>🐾 VetSys</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="index.html" class="active">📋 Expedientes</a>
+            <a href="consulta.html">🩺 Consulta Médica</a>
+            <a href="historial.html">📜 Historiales</a>
+            <a href="inventario.html">📦 Inventario</a>
+            <a href="pos.html">💳 Punto de Venta</a>
+        </nav>
+    </aside>
+
+    <!-- ÁREA DE CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <header class="top-header">
+            <h2>🐾 Control de Expedientes</h2>
+        </header>
+
+        <!-- PESTAÑAS DE NAVEGACIÓN INTERNA -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('buscar')">🔍 Buscar Expedientes</button>
+            <button class="tab-btn" onclick="switchTab('nuevo')">➕ Nuevo Registro</button>
+        </div>
+
+        <!-- VISTA 1: BÚSQUEDA Y LISTADO DE EXPEDIENTES -->
+        <div id="tab-buscar" class="tab-content active">
+            <div class="card">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Buscar por Nombre del dueño, Mascota, Teléfono o ID...">
+                    <button class="btn btn-primary" onclick="cargarExpedientes()">Buscar</button>
+                </div>
+            </div>
+
+            <div class="card table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID / Cód</th>
+                            <th>Mascota</th>
+                            <th>Especie / Raza</th>
+                            <th>Dueño</th>
+                            <th>Teléfono</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientTableBody">
+                        <tr>
+                            <td><strong>EXP-001</strong></td>
+                            <td>Max</td>
+                            <td><span class="badge badge-dog">Perro</span> Golden Retriever</td>
+                            <td>Juan Pérez</td>
+                            <td>555-1234</td>
+                            <td>
+                                <a href="historial.html?id=1" class="btn-action">📋 Historial</a>
+                                <a href="consulta.html?id=1" class="btn-action">🩺 Consulta</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- VISTA 2: FORMULARIO DE NUEVO REGISTRO -->
+        <div id="tab-nuevo" class="tab-content" style="display: none;">
+            <div class="card">
+                <h3>1. Datos del Dueño</h3>
+                <form id="expedienteForm" onsubmit="guardarExpediente(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="duenoNombre">Nombre(s) *</label>
+                            <input type="text" id="duenoNombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="duenoApellido">Apellido(s) *</label>
+                            <input type="text" id="duenoApellido" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="duenoTelefono">Teléfono *</label>
+                            <input type="text" id="duenoTelefono" required>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 1.5rem;">2. Datos de la Mascota</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="mascotaNombre">Nombre de la Mascota *</label>
+                            <input type="text" id="mascotaNombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mascotaEspecie">Especie *</label>
+                            <select id="mascotaEspecie" required>
+                                <option value="Perro">Perro</option>
+                                <option value="Gato">Gato</option>
+                                <option value="Ave">Ave</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mascotaRaza">Raza</label>
+                            <input type="text" id="mascotaRaza">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 1.5rem; text-align: right;">
+                        <button type="submit" class="btn btn-success">💾 Guardar Expediente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
