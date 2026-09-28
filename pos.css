@@ -1,0 +1,184 @@
+/* --- LAYOUT DEL PUNTO DE VENTA (POS) --- */
+.main-content {
+    margin-left: 240px;
+    padding: 1.5rem;
+    width: calc(100% - 240px);
+}
+
+.caja-status {
+    font-size: 0.9rem;
+}
+
+.badge-open {
+    color: #2f855a;
+    background-color: #c6f6d5;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+}
+
+.pos-container {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/* SECCIÓN CATÁLOGO */
+.search-bar input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+}
+
+.category-pills {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+
+.pill {
+    background-color: #edf2f7;
+    border: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+.pill.active, .pill:hover {
+    background-color: var(--primary-color, #2b6cb0);
+    color: white;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border-color: #3182ce;
+}
+
+.prod-title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+}
+
+.prod-price {
+    font-size: 1.1rem;
+    color: #2b6cb0;
+    font-weight: bold;
+}
+
+.prod-stock {
+    font-size: 0.75rem;
+    color: #718096;
+}
+
+/* SECCIÓN CARRITO */
+.cart-card {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 120px);
+}
+
+.client-selector {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.client-selector select {
+    width: 100%;
+}
+
+.cart-table-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.cart-table th, .cart-table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.btn-remove {
+    background: none;
+    border: none;
+    color: #e53e3e;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.cart-summary {
+    background-color: #f7fafc;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.summary-row.total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2d3748;
+    border-top: 1px solid #cbd5e0;
+    padding-top: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* MODAL DE TICKET */
+.ticket-modal {
+    width: 320px;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.ticket-header h3 { margin-bottom: 0.2rem; }
+.ticket-header p { font-size: 0.8rem; margin: 0; }
+.ticket-body { text-align: left; font-size: 0.85rem; margin: 1rem 0; }

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario y Medicamentos - VetSys</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inventario.css">
+</head>
+<body>
+
+    <!-- SIDEBAR DE NAVEGACIÓN GLOBAL -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2>🐾 VetSys</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="index.html">📋 Expedientes</a>
+            <a href="consulta.html">🩺 Consulta Médica</a>
+            <a href="historial.html">📜 Historiales</a>
+            <a href="inventario.html" class="active">📦 Inventario</a>
+            <a href="pos.html">💳 Punto de Venta</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <header class="top-header">
+            <h2>📦 Control de Inventario y Farmacia</h2>
+            <button class="btn btn-primary" onclick="abrirModalProducto()">+ Nuevo Producto</button>
+        </header>
+
+        <!-- TARJETAS DE RESUMEN / MÉTRICAS -->
+        <section class="metrics-grid">
+            <div class="metric-card">
+                <span class="metric-title">Total de Productos</span>
+                <span class="metric-value" id="totalProductsCount">0</span>
+            </div>
+            <div class="metric-card warning">
+                <span class="metric-title">Stock Bajo / Agotados</span>
+                <span class="metric-value" id="lowStockCount">0</span>
+            </div>
+            <div class="metric-card info">
+                <span class="metric-title">Medicamentos Registrados</span>
+                <span class="metric-value" id="medsCount">0</span>
+            </div>
+        </section>
+
+        <!-- BARRAS DE BÚSQUEDA Y FILTRADO -->
+        <div class="card">
+            <div class="search-filter-bar">
+                <input type="text" id="inventorySearchInput" placeholder="Buscar por código de barras, nombre de producto o sustancia...">
+                <select id="filterCategory" onchange="filtrarProductos()">
+                    <option value="TODOS">Todas las Categorías</option>
+                    <option value="MEDICAMENTO">Medicamentos / Farmacia</option>
+                    <option value="ALIMENTO">Alimentos y Nutrición</option>
+                    <option value="ACCESORIO">Accesorios y Estética</option>
+                </select>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="checkLowStock" onchange="filtrarProductos()">
+                    <span>Ver solo Stock Bajo ⚠️</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- TABLA DE PRODUCTOS -->
+        <div class="card table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Producto / Sustancia</th>
+                        <th>Categoría</th>
+                        <th>Precio Compra</th>
+                        <th>Precio Venta</th>
+                        <th>Stock Actual</th>
+                        <th>Mínimo</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTableBody">
+                    <!-- Filas inyectadas por JS -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <!-- MODAL DE REGISTRO DE PRODUCTO -->
+    <div class="modal" id="modalProducto">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Nuevo Producto / Medicamento</h3>
+                <span class="close-modal" onclick="cerrarModalProducto()">&times;</span>
+            </div>
+            <form id="productForm" onsubmit="guardarProducto(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="prodCodigo">Código de Barras / SKU *</label>
+                        <input type="text" id="prodCodigo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodNombre">Nombre del Producto *</label>
+                        <input type="text" id="prodNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodCategoria">Categoría *</label>
+                        <select id="prodCategoria" required>
+                            <option value="MEDICAMENTO">Medicamento / Farmacia</option>
+                            <option value="ALIMENTO">Alimento</option>
+                            <option value="ACCESORIO">Accesorio / Higiene</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodPrecioCompra">Precio Compra ($) *</label>
+                        <input type="number" step="0.01" id="prodPrecioCompra" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodPrecioVenta">Precio Venta ($) *</label>
+                        <input type="number" step="0.01" id="prodPrecioVenta" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodStock">Stock Inicial *</label>
+                        <input type="number" id="prodStock" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodStockMin">Stock Mínimo Alerta *</label>
+                        <input type="number" id="prodStockMin" value="5" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="cerrarModalProducto()">Cancelar</button>
+                    <button type="submit" class="btn btn-success">💾 Guardar Producto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+     
+    <script src="api.js"></script>
+    <script src="inventario.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+/* ==========================================================================
+   ESTILOS DE CONSULTA Y RECETA PARA IMPRESIÓN
+   ========================================================================== */
+
+/* Por defecto, la receta está oculta en la pantalla normal */
+.receta-print-only {
+    display: none;
+}
+
+/* Reglas exclusivas para cuando se abre el diálogo de impresión */
+@media print {
+    /* Ocultar toda la interfaz gráfica de VetSys */
+    .no-print, .sidebar, .top-header, .card {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Mostrar y formatear el lienzo de la receta */
+    .receta-print-only {
+        display: block;
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #000;
+        padding: 2rem;
+    }
+
+    .receta-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .receta-header h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.2rem;
+        color: #2b6cb0;
+    }
+
+    .receta-header hr {
+        border: 1px solid #e2e8f0;
+        margin-top: 1rem;
+    }
+
+    .receta-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        font-size: 1rem;
+        background-color: #f7fafc;
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    .receta-body {
+        min-height: 300px;
+        position: relative;
+    }
+
+    .rx-symbol {
+        font-size: 4rem;
+        color: #cbd5e0;
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        opacity: 0.3;
+        font-style: italic;
+    }
+
+    .tratamiento-text {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        padding-left: 2rem;
+        white-space: pre-wrap; /* Respeta los saltos de línea del textarea */
+    }
+
+    .receta-footer {
+        margin-top: 4rem;
+        text-align: center;
+    }
+
+    .firma-linea {
+        width: 250px;
+        border-bottom: 1px solid #000;
+        margin: 0 auto 0.5rem auto;
+    }
+}

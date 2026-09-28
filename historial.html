@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial Clínico - VetSys</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="historial.css">
+</head>
+<body>
+
+    <!-- BARRA LATERAL FIJA DE NAVEGACIÓN -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2>🐾 VetSys</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="index.html">📋 Expedientes</a>
+            <a href="consulta.html">🩺 Consulta Médica</a>
+            <a href="historial.html" class="active">📜 Historiales</a>
+            <a href="inventario.html">📦 Inventario</a>
+            <a href="pos.html">💳 Punto de Venta</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="main-content">
+        <header class="top-header">
+            <h2>📜 Historial Clínico del Paciente</h2>
+            <a href="index.html" class="btn btn-secondary">⬅ Volver a Búsqueda</a>
+        </header>
+
+        <div class="historial-grid">
+            
+            <!-- COLUMNA IZQUIERDA: PERFIL DEL PACIENTE -->
+            <section class="patient-profile card">
+                <div class="profile-header">
+                    <div class="avatar" id="lblAvatar">🐾</div>
+                    <h3 id="lblNombrePaciente">Cargando...</h3>
+                    <span class="badge badge-dog" id="lblEspecie">--</span>
+                </div>
+                
+                <div class="profile-details">
+                    <p><strong>Dueño:</strong> <span id="lblDueño">--</span></p>
+                    <p><strong>Teléfono:</strong> <span id="lblTelefono">--</span></p>
+                    <p><strong>Raza:</strong> <span id="lblRaza">--</span></p>
+                    <p><strong>Sexo:</strong> <span id="lblSexo">--</span></p>
+                </div>
+                
+                <div class="profile-alerts">
+                    <h4>Alertas Médicas</h4>
+                    <p class="alert-box text-muted" id="lblAlergias">Sin alergias registradas.</p>
+                </div>
+
+                <a href="consulta.html" class="btn btn-primary btn-block" id="btnNuevaConsulta">🩺 Nueva Consulta Médica</a>
+            </section>
+
+            <!-- COLUMNA DERECHA: REGISTROS Y CARNET -->
+            <section class="clinical-records card">
+                
+                <!-- NAVEGACIÓN DE PESTAÑAS -->
+                <div class="tab-navigation">
+                    <button class="tab-btn active" onclick="switchHistorialTab('consultas')">🩺 Consultas Médicas</button>
+                    <button class="tab-btn" onclick="switchHistorialTab('vacunas')">💉 Vacunación</button>
+                    <button class="tab-btn" onclick="switchHistorialTab('desparasitacion')">🐛 Desparasitación</button>
+                </div>
+
+                <!-- PESTAÑA 1: CONSULTAS MÉDICAS -->
+                <div id="tab-consultas" class="tab-content active">
+                    <div class="timeline" id="consultasTimeline">
+                        <div class="empty-state">⏳ Cargando historial de consultas...</div>
+                    </div>
+                </div>
+
+                <!-- PESTAÑA 2: CARNET DE VACUNACIÓN -->
+                <div id="tab-vacunas" class="tab-content" style="display: none;">
+                    <div class="flex-between" style="margin-bottom: 1rem;">
+                        <h3>Control de Vacunas</h3>
+                        <button class="btn btn-success" onclick="abrirModalAplicacion('Vacuna')">+ Registrar Vacuna</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fecha Aplic.</th>
+                                    <th>Vacuna</th>
+                                    <th>Lote / Marca</th>
+                                    <th>Próxima Dosis</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaVacunas">
+                                <tr><td colspan="5" class="empty-state">Cargando vacunas...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PESTAÑA 3: DESPARASITACIÓN -->
+                <div id="tab-desparasitacion" class="tab-content" style="display: none;">
+                    <div class="flex-between" style="margin-bottom: 1rem;">
+                        <h3>Control de Desparasitantes</h3>
+                        <button class="btn btn-success" onclick="abrirModalAplicacion('Desparasitante')">+ Registrar Desparasitante</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Fecha Aplic.</th>
+                                    <th>Producto</th>
+                                    <th>Peso (Kg)</th>
+                                    <th>Próxima Dosis</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaDesparasitantes">
+                                <tr><td colspan="5" class="empty-state">Cargando desparasitaciones...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- MODAL PARA REGISTRAR VACUNA O DESPARASITANTE -->
+    <div class="modal" id="modalAplicacion">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3 id="modalTituloAplicacion">Registrar Aplicación</h3>
+                <span class="close-modal" onclick="cerrarModalAplicacion()">&times;</span>
+            </div>
+            <form id="formAplicacion" onsubmit="guardarAplicacion(event)">
+                <input type="hidden" id="aplicacionTipo">
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="aplicacionNombre">Nombre del Producto / Vacuna *</label>
+                    <input type="text" id="aplicacionNombre" required>
+                </div>
+                <div class="form-grid" style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label for="aplicacionFecha">Fecha de Aplicación *</label>
+                        <input type="date" id="aplicacionFecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="aplicacionProxima">Próxima Dosis</label>
+                        <input type="date" id="aplicacionProxima">
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="aplicacionNotas">Notas o Lote</label>
+                    <input type="text" id="aplicacionNotas">
+                </div>
+                <div class="modal-footer" style="margin-top: 1.5rem; text-align: right;">
+                    <button type="button" class="btn btn-secondary" onclick="cerrarModalAplicacion()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">💾 Guardar Registro</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts unificados -->
+    <script src="api.js"></script>
+    <script src="historial.js"></script>
+</body>
+</html>

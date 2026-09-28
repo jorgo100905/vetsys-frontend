@@ -1,0 +1,165 @@
+/* ==========================================================================
+   MÓDULO DE HISTORIAL CLÍNICO - VETSYS
+   ========================================================================== */
+
+.historial-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+/* TARJETA DE PERFIL (IZQUIERDA) */
+.patient-profile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: 2rem;
+}
+
+.profile-header {
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.5rem;
+}
+
+.avatar {
+    font-size: 3.5rem;
+    background-color: #ebf8ff;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1rem auto;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #63b3ed;
+}
+
+.profile-header h3 {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+.profile-details p {
+    font-size: 0.95rem;
+    margin-bottom: 0.6rem;
+    color: var(--text-color);
+}
+
+.profile-alerts .alert-box {
+    background-color: #fff5f5;
+    border-left: 4px solid #e53e3e;
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    color: #c53030;
+}
+
+.btn-block {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    text-align: center;
+}
+
+/* UTILIDADES Y TEXTOS */
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* LÍNEA DE TIEMPO (TIMELINE DE CONSULTAS) */
+.timeline {
+    position: relative;
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    border-left: 2px solid #e2e8f0;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.95rem;
+    top: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-date {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 0.95rem;
+}
+
+.timeline-body {
+    background-color: #f7fafc;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.timeline-body strong {
+    color: #4a5568;
+}
+
+/* MODAL DE REGISTRO */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+    background-color: var(--card-bg);
+    width: 90%;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.75rem;
+}
+
+.close-modal { font-size: 1.5rem; cursor: pointer; }

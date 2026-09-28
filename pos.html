@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punto de Venta - VetSys</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pos.css">
+</head>
+<body>
+
+    <!-- SIDEBAR DE NAVEGACIÓN GLOBAL -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h2>🐾 VetSys</h2>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="index.html">📋 Expedientes</a>
+            <a href="consulta.html">🩺 Consulta Médica</a>
+            <a href="historial.html">📜 Historiales</a>
+            <a href="inventario.html">📦 Inventario</a>
+            <a href="pos.html" class="active">💳 Punto de Venta</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL EN LAYOUT DE DOS COLUMNAS -->
+    <main class="main-content">
+        <header class="top-header">
+            <h2>💳 Punto de Venta y Caja (POS)</h2>
+            <div class="caja-status">
+                <span>Estado de Caja: <strong class="badge-open">🟢 Abierta</strong></span>
+            </div>
+        </header>
+
+        <div class="pos-container">
+            
+            <!-- COLUMNA IZQUIERDA: CATÁLOGO Y BÚSQUEDA RÁPIDA -->
+            <section class="pos-catalog-section">
+                <div class="card">
+                    <div class="search-bar">
+                        <input type="text" id="posSearchInput" placeholder="🔍 Escanear código de barras o buscar producto/servicio...">
+                    </div>
+                    <div class="category-pills">
+                        <button class="pill active" onclick="filtrarCategoria('TODOS')">Todos</button>
+                        <button class="pill" onclick="filtrarCategoria('SERVICIOS')">🩺 Consultas/Servicios</button>
+                        <button class="pill" onclick="filtrarCategoria('MEDICAMENTO')">💊 Farmacia</button>
+                        <button class="pill" onclick="filtrarCategoria('ALIMENTO')">🦴 Alimentos</button>
+                        <button class="pill" onclick="filtrarCategoria('ACCESORIO')">🧼 Estética/Otros</button>
+                    </div>
+                </div>
+
+                <!-- REJILLA DE PRODUCTOS -->
+                <div class="products-grid" id="productsGrid">
+                    <!-- Tarjetas de producto inyectadas por JS -->
+                </div>
+            </section>
+
+            <!-- COLUMNA DERECHA: CARRITO DE COMPRAS Y COBRO -->
+            <section class="pos-cart-section">
+                <div class="card cart-card">
+                    <h3>🛒 Ticket de Venta Current</h3>
+                    
+                    <!-- SELECCIÓN DE CLIENTE -->
+                    <div class="client-selector">
+                        <label for="clienteSelect">Cliente / Dueño:</label>
+                        <select id="clienteSelect">
+                            <option value="1">Cliente Mostrador (Público General)</option>
+                            <option value="2">Jorge Armendáriz (Mascota: Bobi)</option>
+                            <option value="3">María López (Mascota: Luna)</option>
+                        </select>
+                    </div>
+
+                    <!-- TABLA DEL CARRITO -->
+                    <div class="cart-table-wrapper">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Cant.</th>
+                                    <th>P.Unit</th>
+                                    <th>Subtotal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartTableBody">
+                                <!-- Filas del carrito inyectadas por JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- RESUMEN DE TOTALES -->
+                    <div class="cart-summary">
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span id="lblSubtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>IVA (16%):</span>
+                            <span id="lblIva">$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>TOTAL:</span>
+                            <span id="lblTotal">$0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- METODO DE PAGO Y COBRO -->
+                    <div class="checkout-box">
+                        <div class="form-group">
+                            <label for="metodoPago">Método de Pago:</label>
+                            <select id="metodoPago" onchange="toggleEfectivoInput()">
+                                <option value="Efectivo">💵 Efectivo</option>
+                                <option value="Tarjeta">💳 Tarjeta de Débito/Crédito</option>
+                                <option value="Transferencia">📲 Transferencia SPEI</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="groupPagaCon">
+                            <label for="inputPagaCon">Paga con ($):</label>
+                            <input type="number" id="inputPagaCon" placeholder="0.00" onkeyup="calcularCambio()">
+                        </div>
+                        <div class="summary-row cambio-row" id="groupCambio">
+                            <span>Cambio:</span>
+                            <strong id="lblCambio">$0.00</strong>
+                        </div>
+
+                        <button class="btn btn-success btn-block" onclick="procesarVenta()">PROCESAR COBRO 💳</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- MODAL DE TICKET / COMPROBANTE -->
+    <div class="modal" id="modalTicket">
+        <div class="modal-content ticket-modal">
+            <div class="ticket-header">
+                <h3>🐾 Clínica Veterinaria VetSys</h3>
+                <p>Av. Principal #100, Saucillo, Chih.</p>
+                <p>Tel: (639) 123-4567</p>
+                <hr>
+                <p id="ticketFechaHora"></p>
+                <p id="ticketCliente"></p>
+            </div>
+            <div class="ticket-body" id="ticketBodyItems">
+                <!-- Items listados para impresión -->
+            </div>
+            <hr>
+            <div class="ticket-footer">
+                <p id="ticketTotal"></p>
+                <p id="ticketPagoMetodo"></p>
+                <br>
+                <p>¡Gracias por confiar la salud de su mascota con nosotros!</p>
+                <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Ticket</button>
+                <button class="btn-secondary" onclick="cerrarTicket()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="pos.js"></script>
+</body>
+</html>

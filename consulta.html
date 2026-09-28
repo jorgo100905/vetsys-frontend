@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta y Receta - VetSys</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="consulta.css">
+</head>
+<body>
+
+    <!-- BARRA LATERAL FIJA -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-brand"><h2>🐾 VetSys</h2></div>
+        <nav class="sidebar-menu">
+            <a href="index.html">📋 Expedientes</a>
+            <a href="consulta.html" class="active">🩺 Consulta Médica</a>
+            <a href="historial.html">📜 Historiales</a>
+            <a href="inventario.html">📦 Inventario</a>
+            <a href="pos.html">💳 Punto de Venta</a>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL (PANTALLA) -->
+    <main class="main-content no-print">
+        <header class="top-header">
+            <h2>🩺 Registro de Consulta Médica</h2>
+        </header>
+
+        <form id="consultaForm" onsubmit="guardarConsulta(event)">
+            <div class="card">
+                <h3>1. Datos del Paciente</h3>
+                <div class="form-grid" style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label for="selectPaciente">Seleccionar Paciente / Mascota *</label>
+                        <!-- En producción, este select se llena dinámicamente desde la API -->
+                        <select id="selectPaciente" required>
+                            <option value="" disabled selected>Cargando pacientes...</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>2. Triaje y Signos Vitales</h3>
+                <div class="form-grid" style="margin-top: 1rem;">
+                    <div class="form-group">
+                        <label for="peso">Peso (Kg) *</label>
+                        <input type="number" step="0.01" id="peso" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="temp">Temperatura (°C) *</label>
+                        <input type="number" step="0.1" id="temp" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fc">Frec. Cardíaca (ppm)</label>
+                        <input type="number" id="fc">
+                    </div>
+                    <div class="form-group">
+                        <label for="fr">Frec. Respiratoria (rpm)</label>
+                        <input type="number" id="fr">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>3. Evaluación Médica (SOAP) y Receta</h3>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="motivo">Motivo de Consulta (Anamnesis) *</label>
+                    <textarea id="motivo" rows="2" required></textarea>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="diagnostico">Diagnóstico Médico *</label>
+                    <textarea id="diagnostico" rows="2" required></textarea>
+                </div>
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="tratamiento">Tratamiento / Receta Médica *</label>
+                    <textarea id="tratamiento" rows="4" placeholder="Medicamentos, dosis y frecuencia. Esto aparecerá en la receta impresa." required></textarea>
+                </div>
+
+                <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+                    <button type="button" class="btn btn-secondary" onclick="imprimirReceta()">🖨️ Imprimir Receta</button>
+                    <button type="submit" class="btn btn-success">💾 Guardar Consulta</button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <!-- ZONA DE IMPRESIÓN (OCULTA EN PANTALLA, VISIBLE AL IMPRIMIR) -->
+    <div id="zonaReceta" class="receta-print-only">
+        <div class="receta-header">
+            <h2>Clínica Veterinaria VetSys</h2>
+            <p>Av. Principal #100, Saucillo, Chih. | Tel: (639) 123-4567</p>
+            <p><strong>Médico Veterinario Zootecnista:</strong> Dr. Jorge Armendáriz</p>
+            <hr>
+        </div>
+        
+        <div class="receta-info">
+            <p><strong>Fecha:</strong> <span id="printFecha"></span></p>
+            <p><strong>Paciente:</strong> <span id="printPaciente"></span></p>
+            <p><strong>Peso:</strong> <span id="printPeso"></span> kg | <strong>Temp:</strong> <span id="printTemp"></span> °C</p>
+        </div>
+        
+        <div class="receta-body">
+            <h1 class="rx-symbol">Rx</h1>
+            <div id="printTratamiento" class="tratamiento-text"></div>
+        </div>
+        
+        <div class="receta-footer">
+            <div class="firma-linea"></div>
+            <p>Firma del Médico</p>
+            <p style="font-size: 0.8rem; margin-top: 1rem; color: #718096;">Próxima cita recomendada: _______________</p>
+        </div>
+    </div>
+
+    <script src="api.js"></script>
+    <script src="consulta.js"></script>
+</body>
+</html>
